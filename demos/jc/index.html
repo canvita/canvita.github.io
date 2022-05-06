@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>GeoAR.js demo</title>
+		<script src="../../lib/aframe.min.js"></script>
+		<script src="../../lib/aframe-ar.min.js"></script>
+		<!-- <script src="../../assets/Cesium/Cesium.js"></script> -->
+		<!-- <script src="../../assets/PopCity.js"></script> -->
+
+		<script src="./script.js"></script>
+		<script>
+			AFRAME.registerComponent("change-color-on-hover", {
+				schema: {
+					color: { default: "red" },
+				},
+
+				init: function () {
+					var data = this.data;
+					var el = this.el; // <a-box>
+					var defaultColor = el.getAttribute("material").color;
+
+					el.addEventListener("mouseenter", function () {
+						el.setAttribute("color", data.color);
+					});
+
+					el.addEventListener("mouseleave", function () {
+						el.setAttribute("color", defaultColor);
+					});
+				},
+			});
+		</script>
+		<link rel="stylesheet" type="text/css" href="./style.css" />
+	</head>
+
+	<body style="margin: 0; overflow: hidden">
+		<div class="centered instructions"></div>
+		<a-scene
+			vr-mode-ui="enabled: false"
+			embedded
+			arjs="sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;"
+		>
+			<a-camera
+				gps-camera="simulateLatitude: 29.8668243777652;simulateLongitude: 121.61091452174;gpsMinDistance:"
+				rotation-reader
+			>
+				<!-- <a-cursor></a-cursor> -->
+			</a-camera>
+		</a-scene>
+	</body>
+</html>

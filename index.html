@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>GeoAR.js demo</title>
-    <script src="./aframe.js"></script>
-    <script src="./lookat.js"></script>
-    <script src="./ntf.js"></script>
-  </head>
+	<head>
+		<title>Event Set for Interactions - A-Frame</title>
+		<script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
+	</head>
+	<body>
+		<script>
+			AFRAME.registerComponent("modify-materials", {
+				init: function () {
+					// Wait for model to load.
+					this.el.addEventListener("model-loaded", () => {
+						// Grab the mesh / scene.
+						const obj = this.el.getObject3D("mesh");
+						// Go over the submeshes and modify materials we want.
+						obj.traverse((node) => {
+							if (node.name.indexOf("ship") !== -1) {
+								node.material.color.set("red");
+							}
+						});
+					});
+				},
+			});
+		</script>
 
-  <body style="margin: 0; overflow: hidden;">
-    <a-scene
-      vr-mode-ui="enabled: false"
-      embedded
-      arjs="sourceType: webcam; debugUIEnabled: false;"
-    >
-      <a-text
-        value="This content will always face you."
-        look-at="[gps-camera]"
-        scale="120 120 120"
-        gps-entity-place="latitude: 121.63230423732378; longitude: 29.863524342856763;"
-      ></a-text>
-      <a-camera gps-camera rotation-reader> </a-camera>
-    </a-scene>
-  </body>
+		<a-scene background="color: #ECECEC">
+			<a-entity gltf-model="./assets/magnemite/scene.gltf"></a-entity>
+		</a-scene>
+	</body>
 </html>
